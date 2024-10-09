@@ -24,12 +24,12 @@ export const TextBox = styled.input`
 
   &:focus {
     outline: none;
-    border-color: #b0c5a4;
+    border-color: #05683b;
     background-color: #fff;
   }
 
   &:hover {
-    border-color: #b0c5a4;
+    border-color: #05683b;
   }
 `;
 
