@@ -1,6 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { TextBox } from "../../components/styles/Components.styled";
+import { useNavigate } from "react-router-dom";
+import Axios from "axios";
+import { useCookies } from "react-cookie";
+import { useForm } from "react-hook-form";
+import { ToggleMessage } from "../../utils/SweetAlert";
+import { useAuth } from "../../context/Auth";
 
 const Container = styled.div`
   width: 100%;
@@ -41,12 +47,48 @@ const Button = styled.button`
 `;
 
 function Login() {
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
+  const [_, setCookies] = useCookies(["access_token"]);
+  const { login } = useAuth();
+
+  const _login = (data, event) => {
+    event.preventDefault();
+    try {
+      Axios.post(`http://localhost:8080/users/login`, {
+        username: data.Username,
+        password: data.Password,
+      })
+        .then((res) => {
+          if (res.data.responsecode === "402") {
+            ToggleMessage("error", res.data.message);
+          } else if (res.data.responsecode === "200") {
+            setCookies("access_token", res.data.token);
+            window.localStorage.setItem("UserID", res.data.userID);
+            window.localStorage.setItem("Department", res.data.department);
+            window.localStorage.setItem("IsAdmin", res.data.isAdmin);
+            window.localStorage.setItem("isAuthenticated", "true");
+            login();
+            navigate("/dashboard");
+          }
+        })
+        .catch((err) => {
+          if (err.response) Error();
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Container>
         <Wrapper>
-          <Form>
-            <Logo src="../assets/logo.png" alt="" />
+          <Form onSubmit={handleSubmit(_login)}>
+            <Logo
+              src="https://firebasestorage.googleapis.com/v0/b/studies-e2630.appspot.com/o/logo.png?alt=media&token=b3951937-9e01-472f-81dc-6cb2343d1314"
+              alt=""
+            />
             <TextBox
               marginTop="20px"
               type="text"
@@ -55,6 +97,7 @@ function Login() {
               fontSize="13px"
               placeholder="Username"
               required="true"
+              {...register("Username")}
             />
             <TextBox
               type="password"
@@ -65,6 +108,7 @@ function Login() {
               placeholder="Password"
               required="true"
               minLength={8}
+              {...register("Password")}
             />
             <Button>Continue</Button>
           </Form>
