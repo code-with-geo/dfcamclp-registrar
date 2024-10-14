@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Label, TextBox } from "./styles/Components.styled";
-
+import { useDepartment } from "../context/Departments";
+import { useInquiryCredential } from "../context/InquiryCredential";
+import { useForm } from "react-hook-form";
+import Axios from "axios";
+import { ToggleMessage } from "../utils/SweetAlert";
+import { useNavigate } from "react-router-dom";
 const Container = styled.div`
   width: 100%;
   max-width: 80%;
@@ -123,6 +128,58 @@ const Button = styled.button`
 `;
 
 function InquiryForm() {
+  const navigate = useNavigate();
+  const { departmentData } = useDepartment();
+  const department = departmentData();
+  const { inquiryCredentialData } = useInquiryCredential();
+  const inquiryCredential = inquiryCredentialData();
+  const [departmentID, setDepartmentID] = useState("");
+  const [inquiryCredentialsID, setInquiryCredentialsID] = useState("");
+
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [contactNo, setContactNo] = useState();
+  const [studentEmail, setStudentEmail] = useState();
+  const [message, setMessage] = useState();
+
+  const onChangeDepartment = (event) => {
+    setDepartmentID(event.target.value);
+  };
+
+  const onChangeInquiryCredential = (event) => {
+    setInquiryCredentialsID(event.target.value);
+  };
+
+  const { register, handleSubmit } = useForm();
+
+  const _addTicket = (data, event) => {
+    event.preventDefault();
+    try {
+      Axios.post(`http://localhost:8080/inquiry-tickets/add`, {
+        firstName,
+        lastName,
+        contactNo,
+        studentEmail,
+        departmentID,
+        inquiryCredentialID: inquiryCredentialsID,
+        message,
+      })
+        .then((res) => {
+          if (res.data.responsecode === "402") {
+            console.log(res.data.message);
+          } else if (res.data.responsecode === "200") {
+            navigate("/");
+            ToggleMessage("success", res.data.message);
+          }
+        })
+        .catch((err) => {
+          if (err.response) Error();
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Container>
@@ -138,7 +195,7 @@ function InquiryForm() {
             </Description>
           </Header>
           <Body>
-            <Form>
+            <Form onSubmit={handleSubmit(_addTicket)}>
               <List>
                 <ListItem>
                   <LabelWrapper>
@@ -154,6 +211,10 @@ function InquiryForm() {
                       placeholder="First Name"
                       required="true"
                       marginRight="10px"
+                      {...register("FirstName")}
+                      onChange={(e) => {
+                        setFirstName(e.target.value);
+                      }}
                     />
                     <TextBox
                       marginTop="10px"
@@ -163,6 +224,10 @@ function InquiryForm() {
                       fontSize="13px"
                       placeholder="Last Name"
                       required="true"
+                      {...register("LastName")}
+                      onChange={(e) => {
+                        setLastName(e.target.value);
+                      }}
                     />
                   </TextBoxWrapper>
                 </ListItem>
@@ -181,6 +246,10 @@ function InquiryForm() {
                       placeholder="Contact No."
                       required="true"
                       marginRight="10px"
+                      {...register("ContactNo")}
+                      onChange={(e) => {
+                        setContactNo(e.target.value);
+                      }}
                     />
                   </TextBoxWrapper>
                 </ListItem>
@@ -199,22 +268,37 @@ function InquiryForm() {
                       placeholder="School Email"
                       required="true"
                       marginRight="10px"
+                      {...register("StudentEmail")}
+                      onChange={(e) => {
+                        setStudentEmail(e.target.value);
+                      }}
                     />
                   </TextBoxWrapper>
                 </ListItem>
+
                 <ListItem>
                   <LabelWrapper>
                     <Label marginTop="10px" marginBottom="10px">
                       Department
                     </Label>
                   </LabelWrapper>
+
                   <TextBoxWrapper>
-                    <ComboBox>
-                      <option value="">IT Department</option>
-                      <option value="">Accounting Department</option>
+                    <ComboBox
+                      value={departmentID}
+                      onChange={onChangeDepartment}
+                    >
+                      <option value="">Select a Department</option>
+                      {department != null &&
+                        department.map((dept) => (
+                          <option key={dept._id} value={dept._id}>
+                            {dept.departmentName}
+                          </option>
+                        ))}
                     </ComboBox>
                   </TextBoxWrapper>
                 </ListItem>
+
                 <ListItem>
                   <LabelWrapper>
                     <Label marginTop="10px" marginBottom="10px">
@@ -222,16 +306,17 @@ function InquiryForm() {
                     </Label>
                   </LabelWrapper>
                   <TextBoxWrapper>
-                    <ComboBox>
-                      <option value="">COR</option>
-                      <option value="">COE</option>
-                      <option value="">Drop Form</option>
-                      <option value="">Diploma</option>
-                      <option value="">Grade Slip</option>
-                      <option value="">TOR</option>
-                      <option value="">Add Form</option>
-                      <option value="">Good Moral</option>
-                      <option value="">Books</option>
+                    <ComboBox
+                      value={inquiryCredentialsID}
+                      onChange={onChangeInquiryCredential}
+                    >
+                      <option value="">Select a Credentials</option>
+                      {inquiryCredential != null &&
+                        inquiryCredential.map((inquiry) => (
+                          <option key={inquiry._id} value={inquiry._id}>
+                            {inquiry.inquiryCredentialName}
+                          </option>
+                        ))}
                     </ComboBox>
                   </TextBoxWrapper>
                 </ListItem>
@@ -242,7 +327,14 @@ function InquiryForm() {
                     </Label>
                   </LabelWrapper>
                   <TextBoxWrapper>
-                    <TextArea placeholder="Write something . . . " />
+                    <TextArea
+                      placeholder="Write something . . . "
+                      {...register("Message")}
+                      required="true"
+                      onChange={(e) => {
+                        setMessage(e.target.value);
+                      }}
+                    />
                   </TextBoxWrapper>
                 </ListItem>
                 <ListItem

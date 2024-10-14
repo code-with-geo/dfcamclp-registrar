@@ -2,6 +2,7 @@ import React from "react";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import styled from "styled-components";
+import { useFAQ } from "../context/FAQ";
 
 const Container = styled.div`
   width: 100%;
@@ -37,6 +38,8 @@ const Body = styled.div`
   margin-bottom: 20px;
 `;
 function FAQ() {
+  const { faqData } = useFAQ();
+  const data = faqData();
   return (
     <>
       <Container>
@@ -53,77 +56,23 @@ function FAQ() {
             </Description>
           </Header>
           <Body>
-            <Accordion sx={{ color: "#fff", bgcolor: "#05683b" }}>
-              <AccordionSummary
-                expandIcon={<ExpandMore sx={{ color: "#fff" }} />}
-              >
-                <p>
-                  What are the requirements for requesting a Transcript of
-                  Records (TOR)?
-                </p>
-              </AccordionSummary>
-              <AccordionDetails sx={{ color: "#343f52", bgcolor: "#fff" }}>
-                To request a TOR, you typically need to submit a filled-out
-                request form, valid identification, proof of clearance from all
-                school obligations (library, finance, etc.), and a payment
-                receipt for the processing fee, if applicable.
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion sx={{ color: "#fff", bgcolor: "#05683b" }}>
-              <AccordionSummary
-                expandIcon={<ExpandMore sx={{ color: "#fff" }} />}
-              >
-                <p>How long does it take to process the TOR?</p>
-              </AccordionSummary>
-              <AccordionDetails sx={{ color: "#343f52", bgcolor: "#fff" }}>
-                Processing times for the TOR usually range from 5 to 15 business
-                days, depending on the school’s policies and the volume of
-                requests. You may be notified via email or phone once your TOR
-                is ready for release.
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion sx={{ color: "#fff", bgcolor: "#05683b" }}>
-              <AccordionSummary
-                expandIcon={<ExpandMore sx={{ color: "#fff" }} />}
-              >
-                <p>Can I request my TOR online?</p>
-              </AccordionSummary>
-              <AccordionDetails sx={{ color: "#343f52", bgcolor: "#fff" }}>
-                Yes, many schools offer online TOR request services. You may
-                need to fill out an online request form, upload required
-                documents, and pay any associated fees via bank transfer or
-                other online payment methods.
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion sx={{ color: "#fff", bgcolor: "#05683b" }}>
-              <AccordionSummary
-                expandIcon={<ExpandMore sx={{ color: "#fff" }} />}
-              >
-                <p>Is there a fee for obtaining my TOR?</p>
-              </AccordionSummary>
-              <AccordionDetails sx={{ color: "#343f52", bgcolor: "#fff" }}>
-                Yes, there is typically a processing fee for obtaining a TOR.
-                The amount varies depending on the school. Some institutions may
-                offer fee waivers under certain conditions (e.g., for graduating
-                students).
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion sx={{ color: "#fff", bgcolor: "#05683b" }}>
-              <AccordionSummary
-                expandIcon={<ExpandMore sx={{ color: "#fff" }} />}
-              >
-                <p>Can someone else claim my TOR on my behalf?</p>
-              </AccordionSummary>
-              <AccordionDetails sx={{ color: "#343f52", bgcolor: "#fff" }}>
-                Yes, but the authorized representative will need to present an
-                authorization letter, a copy of your valid ID, and their own ID
-                when claiming the TOR on your behalf.
-              </AccordionDetails>
-            </Accordion>
+            {data != null &&
+              data.map((faq) => {
+                return (
+                  <Accordion sx={{ color: "#fff", bgcolor: "#05683b" }}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMore sx={{ color: "#fff" }} />}
+                    >
+                      <p>{faq.faqQuestion}</p>
+                    </AccordionSummary>
+                    <AccordionDetails
+                      sx={{ color: "#343f52", bgcolor: "#fff" }}
+                    >
+                      {faq.faqAnswer}
+                    </AccordionDetails>
+                  </Accordion>
+                );
+              })}
           </Body>
         </Wrapper>
       </Container>

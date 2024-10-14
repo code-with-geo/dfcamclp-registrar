@@ -6,7 +6,9 @@ import {
   Article,
   HelpCenter,
   Announcement,
+  Note,
 } from "@mui/icons-material";
+import { useAdminStatus, useGetUserID } from "../../../hooks/Users";
 
 const Container = styled.div`
   width: 250px;
@@ -64,37 +66,58 @@ const Label = styled.p`
   margin-left: 5px;
 `;
 function SideNav() {
+  const isAdmin = useAdminStatus();
+
   return (
     <>
       <Container>
-        <Wrapper>
-          <List>
-            <ListItem>
-              <PageLinks to="/dashboard/departments">
-                <AssuredWorkload />
-                <Label>Departments</Label>
-              </PageLinks>
-            </ListItem>
-            <ListItem>
-              <PageLinks to="/dashboard/inquiry-credentials">
-                <Article />
-                <Label>Inquiry Credential's</Label>
-              </PageLinks>
-            </ListItem>
-            <ListItem>
-              <PageLinks to="/dashboard/faqs">
-                <HelpCenter />
-                <Label>FAQ's</Label>
-              </PageLinks>
-            </ListItem>
-            <ListItem>
-              <PageLinks to="/dashboard/announcements">
-                <Announcement />
-                <Label>Announcements</Label>
-              </PageLinks>
-            </ListItem>
-          </List>
-        </Wrapper>
+        {isAdmin === "true" ? (
+          <Wrapper>
+            <List>
+              <ListItem>
+                <PageLinks to="/dashboard/">
+                  <Note />
+                  <Label>Inquiry Ticket's</Label>
+                </PageLinks>
+              </ListItem>
+              <ListItem>
+                <PageLinks to="/dashboard/departments">
+                  <AssuredWorkload />
+                  <Label>Departments</Label>
+                </PageLinks>
+              </ListItem>
+              <ListItem>
+                <PageLinks to="/dashboard/inquiry-credentials">
+                  <Article />
+                  <Label>Inquiry Credential's</Label>
+                </PageLinks>
+              </ListItem>
+              <ListItem>
+                <PageLinks to="/dashboard/faqs">
+                  <HelpCenter />
+                  <Label>FAQ's</Label>
+                </PageLinks>
+              </ListItem>
+              <ListItem>
+                <PageLinks to="/dashboard/announcements">
+                  <Announcement />
+                  <Label>Announcements</Label>
+                </PageLinks>
+              </ListItem>
+            </List>
+          </Wrapper>
+        ) : (
+          <Wrapper>
+            <List>
+              <ListItem>
+                <PageLinks to="/dashboard/inquiry-credentials">
+                  <Article />
+                  <Label>Inquiry Ticket's</Label>
+                </PageLinks>
+              </ListItem>
+            </List>
+          </Wrapper>
+        )}
       </Container>
     </>
   );

@@ -25,8 +25,8 @@ function ActionButton({ params }) {
 
   const _delete = (id) => {
     try {
-      Axios.post(`http://localhost:8080/announcements/remove`, {
-        announcementID: id,
+      Axios.post(`http://localhost:8080/inquiry-tickets/remove`, {
+        ticketID: id,
       })
         .then((res) => {
           if (res.data.responsecode === "402") {
@@ -49,7 +49,7 @@ function ActionButton({ params }) {
         <Tooltip title="Edit">
           <EditButton
             onClick={() =>
-              navigate(`/dashboard/announcements/edit/${params.row._id}`)
+              navigate(`/dashboard/tickets/edit/${params.row._id}`)
             }
           />
         </Tooltip>
