@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useAnnouncement } from "../context/Announcement";
 
 const Container = styled.div`
   width: 100%;
@@ -24,10 +25,14 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const AnnouncementImage = styled.img`
-  width: 80%;
-  height: 500px;
-  margin-top: 10px;
+const Description = styled.p`
+  word-spacing: 5px;
+  text-align: center;
+  margin-top: 15px;
+  font-weight: 400;
+  color: #60697b;
+  line-height: 30px;
+  width: 800px;
 `;
 
 const Body = styled.div`
@@ -38,17 +43,24 @@ const Body = styled.div`
 `;
 
 function Announcement() {
+  const { announcementData } = useAnnouncement();
+  const data = announcementData();
   return (
     <>
       <Container>
-        <Wrapper>
-          <Header>
-            <Title>Announcement</Title>
-          </Header>
-          <Body>
-            <AnnouncementImage src="./assets/announcement.jpg" alt="" />
-          </Body>
-        </Wrapper>
+        {data != null &&
+          data.map((announcement) => {
+            return (
+              <Wrapper>
+                <Header>
+                  <Title>{announcement.announcementTitle}</Title>
+                </Header>
+                <Body>
+                  <Description>{announcement.announcementDetails}</Description>
+                </Body>
+              </Wrapper>
+            );
+          })}
       </Container>
     </>
   );
