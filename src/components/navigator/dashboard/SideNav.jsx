@@ -110,7 +110,7 @@ function SideNav() {
           <Wrapper>
             <List>
               <ListItem>
-                <PageLinks to="/dashboard/inquiry-credentials">
+                <PageLinks to="/dashboard/">
                   <Article />
                   <Label>Inquiry Ticket's</Label>
                 </PageLinks>

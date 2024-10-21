@@ -302,7 +302,8 @@ function EditTickets() {
                     height="30px"
                     width="515px"
                     placeholder="Please enter student email"
-                    require="true"
+                    pattern="^[a-zA-Z0-9._%+-]+@dfcamclp\.edu\.ph$"
+                    required
                     readOnly="true"
                     value={studentEmail}
                   />

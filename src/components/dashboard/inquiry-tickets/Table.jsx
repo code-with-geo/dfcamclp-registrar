@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import styled from "styled-components";
 import ActionButton from "./ActionButton";
 import { useInquiryTicket } from "../../../context/InquiryTickets";
+import { useGetDepartmentID, useAdminStatus } from "../../../hooks/Users";
 
 const Container = styled.div`
   margin-top: 20px;
@@ -70,35 +71,66 @@ const TableColumns = [
   },
 ];
 function Table() {
-  const { inquiryTicketData } = useInquiryTicket();
+  const { inquiryTicketData, inquiryTicketByDepartment } = useInquiryTicket();
   const data = inquiryTicketData();
+  const departmentID = useGetDepartmentID();
+  const department = inquiryTicketByDepartment(departmentID);
+  const isAdmin = useAdminStatus();
+
   return (
     <>
       <Container>
-        <DataGrid
-          sx={{
-            fontSize: "12px",
-            overflowX: "auto",
-            "& .theme-header": {
-              backgroundColor: "#05683b",
-              color: "#fff",
+        {!isAdmin ? (
+          <DataGrid
+            sx={{
+              fontSize: "12px",
+              overflowX: "auto",
+              "& .theme-header": {
+                backgroundColor: "#05683b",
+                color: "#fff",
 
-              ":hover": { color: "#fff" },
-            },
-            "& .css-ptiqhd-MuiSvgIcon-root": {
-              color: "#fff",
-            },
-          }}
-          getRowId={(row) => row._id}
-          columns={TableColumns}
-          rows={data != null && data}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-        />
+                ":hover": { color: "#fff" },
+              },
+              "& .css-ptiqhd-MuiSvgIcon-root": {
+                color: "#fff",
+              },
+            }}
+            getRowId={(row) => row._id}
+            columns={TableColumns}
+            rows={data != null && data}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+          />
+        ) : (
+          <DataGrid
+            sx={{
+              fontSize: "12px",
+              overflowX: "auto",
+              "& .theme-header": {
+                backgroundColor: "#05683b",
+                color: "#fff",
+
+                ":hover": { color: "#fff" },
+              },
+              "& .css-ptiqhd-MuiSvgIcon-root": {
+                color: "#fff",
+              },
+            }}
+            getRowId={(row) => row._id}
+            columns={TableColumns}
+            rows={department != null && department}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+          />
+        )}
       </Container>
     </>
   );

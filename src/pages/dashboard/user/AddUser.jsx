@@ -233,7 +233,10 @@ function AddUser() {
                 </ListItem>
 
                 <ListItem>
-                  <TextArea
+                  <TextBox
+                    type="text"
+                    height="30px"
+                    width="515px"
                     placeholder="Please enter first name"
                     require="true"
                     {...register("FirstName")}

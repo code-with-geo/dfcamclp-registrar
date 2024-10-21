@@ -127,6 +127,14 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const ErrorMessage = styled.p`
+  font-weight: 400;
+  font-size: 12px;
+  color: #c03333;
+  margin-left: 5px;
+  margin-top: 5px;
+`;
+
 function InquiryForm() {
   const navigate = useNavigate();
   const { departmentData } = useDepartment();
@@ -150,7 +158,11 @@ function InquiryForm() {
     setInquiryCredentialsID(event.target.value);
   };
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const _addTicket = (data, event) => {
     event.preventDefault();
@@ -246,13 +258,23 @@ function InquiryForm() {
                       placeholder="Contact No."
                       required="true"
                       marginRight="10px"
-                      {...register("ContactNo")}
+                      {...register("ContactNo", {
+                        pattern: {
+                          value: /^(?:\+63|0)9\d{9}$/,
+                        },
+                      })}
                       onChange={(e) => {
                         setContactNo(e.target.value);
                       }}
                     />
                   </TextBoxWrapper>
                 </ListItem>
+                {errors.ContactNo && (
+                  <ErrorMessage>
+                    Please enter a valid number (e.g., +639XXXXXXXXX or
+                    09XXXXXXXXX)
+                  </ErrorMessage>
+                )}
                 <ListItem>
                   <LabelWrapper>
                     <Label marginTop="10px" marginBottom="10px">
@@ -266,15 +288,24 @@ function InquiryForm() {
                       width="510px"
                       fontSize="13px"
                       placeholder="School Email"
-                      required="true"
                       marginRight="10px"
-                      {...register("StudentEmail")}
+                      {...register("StudentEmail", {
+                        pattern: {
+                          value: /^[a-zA-Z0-9._%+-]+@dfcamclp\.edu\.ph$/,
+                        },
+                      })}
+                      required="true"
                       onChange={(e) => {
                         setStudentEmail(e.target.value);
                       }}
                     />
                   </TextBoxWrapper>
                 </ListItem>
+                {errors.StudentEmail && (
+                  <ErrorMessage>
+                    Please enter a valid email with @dfcamclp.edu.ph domain
+                  </ErrorMessage>
+                )}
 
                 <ListItem>
                   <LabelWrapper>
@@ -285,6 +316,9 @@ function InquiryForm() {
 
                   <TextBoxWrapper>
                     <ComboBox
+                      {...register("Department", {
+                        validate: (value) => value !== "",
+                      })}
                       value={departmentID}
                       onChange={onChangeDepartment}
                     >
@@ -298,6 +332,9 @@ function InquiryForm() {
                     </ComboBox>
                   </TextBoxWrapper>
                 </ListItem>
+                {errors.Department && (
+                  <ErrorMessage>Please select department</ErrorMessage>
+                )}
 
                 <ListItem>
                   <LabelWrapper>
@@ -307,6 +344,9 @@ function InquiryForm() {
                   </LabelWrapper>
                   <TextBoxWrapper>
                     <ComboBox
+                      {...register("InquiryCredentials", {
+                        validate: (value) => value !== "",
+                      })}
                       value={inquiryCredentialsID}
                       onChange={onChangeInquiryCredential}
                     >
@@ -320,6 +360,9 @@ function InquiryForm() {
                     </ComboBox>
                   </TextBoxWrapper>
                 </ListItem>
+                {errors.InquiryCredentials && (
+                  <ErrorMessage>Please select inquiry credentials</ErrorMessage>
+                )}
                 <ListItem>
                   <LabelWrapper>
                     <Label marginTop="10px" marginBottom="10px">

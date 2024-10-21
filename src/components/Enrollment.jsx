@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -36,7 +35,7 @@ const Description = styled.p`
   width: 800px;
 `;
 
-const PageLink = styled(Link)`
+const PageLink = styled.a`
   margin-top: 30px;
   background-color: #05683b;
   color: #fff;
@@ -62,7 +61,9 @@ function Enrollment() {
             the first step toward becoming a tech leader and innovator by
             enrolling today!
           </Description>
-          <PageLink>Contact Us</PageLink>
+          <PageLink href="https://www.facebook.com/dfcaittiregistrar">
+            Contact Us
+          </PageLink>
         </Wrapper>
       </Container>
     </>
