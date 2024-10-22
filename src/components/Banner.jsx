@@ -58,7 +58,8 @@ function Banner() {
             <Logo src="../assets/logo.png" alt="" />
           </Link>
           <Title>
-            DR. FILEMON C AGUILAR MEMORIAL COLLEGE OF LAS PIÑAS I.T. CAMPUS
+            DR. FILEMON C AGUILAR MEMORIAL COLLEGE OF LAS PIÑAS - SATELLITE
+            CAMPUS
           </Title>
           <PageLink to="/inquiries">Inquire Now</PageLink>
         </Wrapper>
