@@ -1,13 +1,13 @@
 import React from "react";
 import Banner from "../components/Banner";
-import InquiryForm from "../components/InquiryForm";
 import Footer from "../components/Footer";
+import InquirySearch from "../components/InquirySearch";
 
 function Inquiries() {
   return (
     <>
       <Banner />
-      <InquiryForm />
+      <InquirySearch />
       <Footer />
     </>
   );

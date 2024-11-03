@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { KeyboardBackspace } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Axios from "axios";
 
@@ -168,6 +168,7 @@ const Button = styled.button`
 function AddInquiryCredential() {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
+  const { id } = useParams();
 
   const _addInquiryCredentials = (data, event) => {
     event.preventDefault();
@@ -176,12 +177,13 @@ function AddInquiryCredential() {
       Axios.post(`http://localhost:8080/inquiry-credentials/add`, {
         name: data.Name,
         requirements: data.Requirements,
+        departmentID: id,
       })
         .then((res) => {
           if (res.data.responsecode === "402") {
             console.log(res.data.message);
           } else if (res.data.responsecode === "200") {
-            navigate("/dashboard/inquiry-credentials");
+            navigate(`/dashboard/inquiry-credentials/${id}`);
           }
         })
         .catch((err) => {
@@ -198,7 +200,7 @@ function AddInquiryCredential() {
           <Header>
             <BackArrow
               fontSize="small"
-              onClick={() => navigate("/dashboard/inquiry-credentials")}
+              onClick={() => navigate(`/dashboard/inquiry-credentials/${id}`)}
             />
             <h3>Add Inquiry Credentials</h3>
           </Header>

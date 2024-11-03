@@ -74,15 +74,42 @@ const GetInquiryTicketByDepartment = (departmentID) => {
   return ticket;
 };
 
+const GetInquiryTicketByTicketID = (ticketID) => {
+  const [ticket, setInquiryTicket] = useState(null);
+  useEffect(() => {
+    const getInquiryTicketByTicketID = () => {
+      try {
+        Axios.post(`http://localhost:8080/inquiry-tickets/get-by-ticketid`, {
+          ticketID,
+        })
+          .then((res) => {
+            setInquiryTicket(res.data.tickets);
+          })
+          .catch((err) => {
+            if (err.response) Error();
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getInquiryTicketByTicketID();
+  }, [ticketID]);
+  return ticket;
+};
+
 export const InquiryTicketProvider = (props) => {
   const inquiryTicketData = () => GetInquiryTicketData();
   const inquiryTicketByID = (ticketID) => GetInquiryTicketByID(ticketID);
   const inquiryTicketByDepartment = (departmentID) =>
     GetInquiryTicketByDepartment(departmentID);
+  const inquiryTicketByTicketID = (ticketID) =>
+    GetInquiryTicketByTicketID(ticketID);
   const inquiryTicketMethods = {
     inquiryTicketData,
     inquiryTicketByID,
     inquiryTicketByDepartment,
+    inquiryTicketByTicketID,
   };
   return (
     <InquiryTicketContext.Provider value={inquiryTicketMethods}>

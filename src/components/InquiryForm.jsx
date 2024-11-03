@@ -139,17 +139,15 @@ function InquiryForm() {
   const navigate = useNavigate();
   const { departmentData } = useDepartment();
   const department = departmentData();
-  const { inquiryCredentialData } = useInquiryCredential();
-  const inquiryCredential = inquiryCredentialData();
   const [departmentID, setDepartmentID] = useState("");
+  const { inquiryCredentialDataByDepartment } = useInquiryCredential();
+  const inquiryCredential = inquiryCredentialDataByDepartment(departmentID);
   const [inquiryCredentialsID, setInquiryCredentialsID] = useState("");
-
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [contactNo, setContactNo] = useState();
   const [studentEmail, setStudentEmail] = useState();
   const [message, setMessage] = useState();
-
   const onChangeDepartment = (event) => {
     setDepartmentID(event.target.value);
   };
@@ -289,11 +287,7 @@ function InquiryForm() {
                       fontSize="13px"
                       placeholder="School Email"
                       marginRight="10px"
-                      {...register("StudentEmail", {
-                        pattern: {
-                          value: /^[a-zA-Z0-9._%+-]+@dfcamclp\.edu\.ph$/,
-                        },
-                      })}
+                      {...register("StudentEmail")}
                       required="true"
                       onChange={(e) => {
                         setStudentEmail(e.target.value);
@@ -347,6 +341,7 @@ function InquiryForm() {
                       {...register("InquiryCredentials", {
                         validate: (value) => value !== "",
                       })}
+                      disabled={departmentID === null || departmentID === ""}
                       value={inquiryCredentialsID}
                       onChange={onChangeInquiryCredential}
                     >

@@ -87,12 +87,6 @@ function SideNav() {
                 </PageLinks>
               </ListItem>
               <ListItem>
-                <PageLinks to="/dashboard/inquiry-credentials">
-                  <Article />
-                  <Label>Inquiry Credential's</Label>
-                </PageLinks>
-              </ListItem>
-              <ListItem>
                 <PageLinks to="/dashboard/faqs">
                   <HelpCenter />
                   <Label>FAQ's</Label>

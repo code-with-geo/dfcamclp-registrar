@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Delete, Edit, PersonAddAlt } from "@mui/icons-material";
+import { Article, Delete, Edit, PersonAddAlt } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
@@ -21,6 +21,12 @@ const EditButton = styled(Edit)`
 `;
 
 const VendorButton = styled(PersonAddAlt)`
+  cursor: pointer;
+  color: #868e96;
+  margin-left: 10px;
+`;
+
+const CredentialButton = styled(Article)`
   cursor: pointer;
   color: #868e96;
   margin-left: 10px;
@@ -55,6 +61,13 @@ function ActionButton({ params }) {
         <Tooltip title="Users">
           <VendorButton
             onClick={() => navigate(`/dashboard/users/${params.row._id}`)}
+          />
+        </Tooltip>
+        <Tooltip title="Inquiry Credentials">
+          <CredentialButton
+            onClick={() =>
+              navigate(`/dashboard/inquiry-credentials/${params.row._id}`)
+            }
           />
         </Tooltip>
         <Tooltip title="Edit">

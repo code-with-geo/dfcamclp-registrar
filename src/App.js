@@ -6,7 +6,6 @@ import Inquiries from "./pages/Inquiries";
 import { AuthProtectedRoutes, ProtectedRoutes } from "./utils/ProtectedRoutes";
 import { AuthProvider } from "./context/Auth";
 import Dashboard from "./pages/dashboard/Dashboard";
-import DashboardHome from "./pages/dashboard/Home";
 import Users from "./pages/dashboard/user/Users";
 import AddUser from "./pages/dashboard/user/AddUser";
 import { UserProvider } from "./context/Users";
@@ -30,6 +29,10 @@ import EditUser from "./pages/dashboard/user/EditUser";
 import InquiryTickets from "./pages/dashboard/tickets/InquiryTickets";
 import EditTickets from "./pages/dashboard/tickets/EditTickets";
 import { InquiryTicketProvider } from "./context/InquiryTickets";
+import AddInquiries from "./pages/inquiries/AddInquiries";
+import TicketMessages from "./pages/inquiries/TicketMessages";
+import { MessageProvider } from "./context/Messages";
+import Messages from "./components/dashboard/inquiry-tickets/Messages";
 function App() {
   return (
     <div className="App">
@@ -40,83 +43,97 @@ function App() {
               <InquiryCredentialProvider>
                 <AnnouncementProvider>
                   <InquiryTicketProvider>
-                    <Router>
-                      <Routes>
-                        <Route Route element={<AuthProtectedRoutes />}>
-                          <Route path="/login" element={<Login />} />
-                        </Route>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/inquiries" element={<Inquiries />} />
-                        <Route element={<ProtectedRoutes />}>
-                          <Route path="/dashboard" element={<Dashboard />}>
-                            <Route index element={<InquiryTickets />} />
-                            <Route
-                              path="/dashboard/tickets/edit/:id"
-                              element={<EditTickets />}
-                            />
-
-                            <Route
-                              path="/dashboard/users/:id"
-                              element={<Users />}
-                            />
-                            <Route
-                              path="/dashboard/users/add/:id"
-                              element={<AddUser />}
-                            />
-                            <Route
-                              path="/dashboard/users/edit/:id"
-                              element={<EditUser />}
-                            />
-                            <Route
-                              path="/dashboard/departments"
-                              element={<Departments />}
-                            />
-                            <Route
-                              path="/dashboard/departments/add"
-                              element={<AddDepartments />}
-                            />
-                            <Route
-                              path="/dashboard/departments/edit/:id"
-                              element={<EditDepartment />}
-                            />
-                            <Route path="/dashboard/faqs" element={<FAQ />} />
-                            <Route
-                              path="/dashboard/faqs/add"
-                              element={<AddFAQ />}
-                            />
-                            <Route
-                              path="/dashboard/faqs/edit/:id"
-                              element={<EditFAQ />}
-                            />
-                            <Route
-                              path="/dashboard/inquiry-credentials"
-                              element={<InquiryCredential />}
-                            />
-                            <Route
-                              path="/dashboard/inquiry-credentials/add"
-                              element={<AddInquiryCredential />}
-                            />
-                            <Route
-                              path="/dashboard/inquiry-credentials/edit/:id"
-                              element={<EditInquiryCredential />}
-                            />
-
-                            <Route
-                              path="/dashboard/announcements"
-                              element={<Announcement />}
-                            />
-                            <Route
-                              path="/dashboard/announcements/add"
-                              element={<AddAnnouncement />}
-                            />
-                            <Route
-                              path="/dashboard/announcements/edit/:id"
-                              element={<EditAnnouncement />}
-                            />
+                    <MessageProvider>
+                      <Router>
+                        <Routes>
+                          <Route Route element={<AuthProtectedRoutes />}>
+                            <Route path="/login" element={<Login />} />
                           </Route>
-                        </Route>
-                      </Routes>
-                    </Router>
+                          <Route path="/" element={<Home />} />
+                          <Route path="/inquiries" element={<Inquiries />} />
+                          <Route
+                            path="/inquiries/create"
+                            element={<AddInquiries />}
+                          />
+                          <Route
+                            path="/inquiries/:id"
+                            element={<TicketMessages />}
+                          />
+                          <Route element={<ProtectedRoutes />}>
+                            <Route path="/dashboard" element={<Dashboard />}>
+                              <Route index element={<InquiryTickets />} />
+                              <Route
+                                path="/dashboard/tickets/edit/:id"
+                                element={<EditTickets />}
+                              />
+                              <Route
+                                path="/dashboard/tickets/message/:ticketID"
+                                element={<Messages />}
+                              />
+
+                              <Route
+                                path="/dashboard/users/:id"
+                                element={<Users />}
+                              />
+                              <Route
+                                path="/dashboard/users/add/:id"
+                                element={<AddUser />}
+                              />
+                              <Route
+                                path="/dashboard/users/edit/:id"
+                                element={<EditUser />}
+                              />
+                              <Route
+                                path="/dashboard/departments"
+                                element={<Departments />}
+                              />
+                              <Route
+                                path="/dashboard/departments/add"
+                                element={<AddDepartments />}
+                              />
+                              <Route
+                                path="/dashboard/departments/edit/:id"
+                                element={<EditDepartment />}
+                              />
+                              <Route path="/dashboard/faqs" element={<FAQ />} />
+                              <Route
+                                path="/dashboard/faqs/add"
+                                element={<AddFAQ />}
+                              />
+                              <Route
+                                path="/dashboard/faqs/edit/:id"
+                                element={<EditFAQ />}
+                              />
+                              <Route
+                                path="/dashboard/inquiry-credentials/:id"
+                                element={<InquiryCredential />}
+                              />
+                              <Route
+                                path="/dashboard/inquiry-credentials/add/:id"
+                                element={<AddInquiryCredential />}
+                              />
+                              <Route
+                                path="/dashboard/inquiry-credentials/edit/:id/:departmentID"
+                                element={<EditInquiryCredential />}
+                              />
+
+                              <Route
+                                path="/dashboard/announcements"
+                                element={<Announcement />}
+                              />
+                              <Route
+                                path="/dashboard/announcements/add"
+                                element={<AddAnnouncement />}
+                              />
+                              <Route
+                                path="/dashboard/announcements/edit/:id"
+                                element={<EditAnnouncement />}
+                              />
+                            </Route>
+                          </Route>
+                        </Routes>
+                      </Router>
+                    </MessageProvider>
                   </InquiryTicketProvider>
                 </AnnouncementProvider>
               </InquiryCredentialProvider>

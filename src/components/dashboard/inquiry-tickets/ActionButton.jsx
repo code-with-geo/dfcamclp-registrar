@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Delete, Edit } from "@mui/icons-material";
+import { Delete, Edit, Message } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
@@ -15,6 +15,12 @@ const DeleteButton = styled(Delete)`
 `;
 
 const EditButton = styled(Edit)`
+  cursor: pointer;
+  color: #868e96;
+  margin-left: 10px;
+`;
+
+const MessageButton = styled(Message)`
   cursor: pointer;
   color: #868e96;
   margin-left: 10px;
@@ -46,6 +52,13 @@ function ActionButton({ params }) {
   return (
     <>
       <Container>
+        <Tooltip title="Message">
+          <MessageButton
+            onClick={() =>
+              navigate(`/dashboard/tickets/message/${params.row.ticketID}`)
+            }
+          />
+        </Tooltip>
         <Tooltip title="Edit">
           <EditButton
             onClick={() =>

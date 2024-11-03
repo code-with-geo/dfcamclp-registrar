@@ -168,7 +168,7 @@ const Button = styled.button`
 
 function EditInquiryCredential() {
   const { inquiryCredentialDataByID } = useInquiryCredential();
-  const { id } = useParams();
+  const { id, departmentID } = useParams();
   const inquiryCredential = inquiryCredentialDataByID(id);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
@@ -195,7 +195,7 @@ function EditInquiryCredential() {
           if (res.data.responsecode === "402") {
             console.log(res.data.message);
           } else if (res.data.responsecode === "200") {
-            navigate("/dashboard/inquiry-credentials");
+            navigate(`/dashboard/inquiry-credentials/${departmentID}`);
           }
         })
         .catch((err) => {
@@ -212,7 +212,9 @@ function EditInquiryCredential() {
           <Header>
             <BackArrow
               fontSize="small"
-              onClick={() => navigate("/dashboard/inquiry-credentials")}
+              onClick={() =>
+                navigate(`/dashboard/inquiry-credentials/${departmentID}`)
+              }
             />
             <h3>Edit Inquiry Credentials</h3>
           </Header>

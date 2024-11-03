@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Delete, Edit } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Axios from "axios";
 import { ToggleMessage } from "../../../utils/SweetAlert";
 
@@ -43,13 +43,17 @@ function ActionButton({ params }) {
     }
   };
 
+  const { id } = useParams();
+
   return (
     <>
       <Container>
         <Tooltip title="Edit">
           <EditButton
             onClick={() =>
-              navigate(`/dashboard/inquiry-credentials/edit/${params.row._id}`)
+              navigate(
+                `/dashboard/inquiry-credentials/edit/${params.row._id}/${id}`
+              )
             }
           />
         </Tooltip>

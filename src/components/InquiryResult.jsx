@@ -1,51 +1,56 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import styled from "styled-components";
-import ActionButton from "./ActionButton";
-import { useInquiryCredential } from "../../../context/InquiryCredential";
-import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   margin-top: 20px;
-  height: 550px;
 `;
 
 const TableColumns = [
   {
-    field: "_id",
-    headerName: "ID",
+    field: "ticketID",
+    headerName: "Ticket ID",
     flex: 1,
     resizable: false,
     headerClassName: "theme-header",
   },
   {
-    field: "inquiryCredentialName",
-    headerName: "Name",
+    field: "ticketFirstName",
+    headerName: "First Name",
     flex: 1,
     headerClassName: "theme-header",
     resizable: false,
   },
   {
-    field: "inquiryCredentialRequirements",
-    headerName: "Requirements",
+    field: "ticketLastName",
+    headerName: "Last Name",
     flex: 1,
     headerClassName: "theme-header",
     resizable: false,
   },
   {
-    field: "actions",
-    headerName: "Actions",
-    type: "actions",
+    field: "ticketContactNumber",
+    headerName: "Contact No.",
     flex: 1,
     headerClassName: "theme-header",
     resizable: false,
-    renderCell: (params) => <ActionButton {...{ params }} />,
+  },
+  {
+    field: "ticketStudentEmail",
+    headerName: "Student Email",
+    flex: 1,
+    headerClassName: "theme-header",
+    resizable: false,
+  },
+  {
+    field: "ticketStatus",
+    headerName: "Status",
+    flex: 1,
+    headerClassName: "theme-header",
+    resizable: false,
   },
 ];
-function Table() {
-  const { id } = useParams();
-  const { inquiryCredentialDataByDepartment } = useInquiryCredential();
-  const data = inquiryCredentialDataByDepartment(id);
+function InquiryResult({ tickets }) {
   return (
     <>
       <Container>
@@ -65,17 +70,11 @@ function Table() {
           }}
           getRowId={(row) => row._id}
           columns={TableColumns}
-          rows={data != null && data}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
+          rows={tickets != null && tickets}
         />
       </Container>
     </>
   );
 }
 
-export default Table;
+export default InquiryResult;

@@ -253,7 +253,7 @@ function EditTickets() {
           <Header>
             <BackArrow
               fontSize="small"
-              onClick={() => navigate("/dashboard/faqs")}
+              onClick={() => navigate("/dashboard/")}
             />
             <h3>Edit Inquiry Ticket</h3>
           </Header>
@@ -330,15 +330,6 @@ function EditTickets() {
                     require="true"
                     readOnly="true"
                     value={inquireCredentials}
-                  />
-                </ListItem>
-
-                <ListItem>
-                  <TextArea
-                    placeholder="Please enter message"
-                    require="true"
-                    readOnly="true"
-                    value={message}
                   />
                 </ListItem>
                 <ListItem>

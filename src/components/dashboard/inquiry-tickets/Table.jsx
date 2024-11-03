@@ -12,8 +12,8 @@ const Container = styled.div`
 
 const TableColumns = [
   {
-    field: "_id",
-    headerName: "ID",
+    field: "ticketID",
+    headerName: "Ticket ID",
     flex: 1,
     resizable: false,
     headerClassName: "theme-header",
@@ -47,13 +47,6 @@ const TableColumns = [
     resizable: false,
   },
   {
-    field: "ticketMessage",
-    headerName: "Message",
-    flex: 1,
-    headerClassName: "theme-header",
-    resizable: false,
-  },
-  {
     field: "ticketStatus",
     headerName: "Status",
     flex: 1,
@@ -80,7 +73,7 @@ function Table() {
   return (
     <>
       <Container>
-        {!isAdmin ? (
+        {isAdmin === "true" ? (
           <DataGrid
             sx={{
               fontSize: "12px",
@@ -125,7 +118,7 @@ function Table() {
             rows={department != null && department}
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
+                paginationModel: { page: 0, pageSize: 10 },
               },
             }}
             pageSizeOptions={[5, 10]}

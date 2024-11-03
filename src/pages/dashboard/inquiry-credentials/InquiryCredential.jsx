@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Table from "../../../components/dashboard/inquiry-credentials/Table";
 
 const Container = styled.div`
@@ -55,6 +55,7 @@ const Links = styled(Link)`
 const Body = styled.div``;
 
 function InquiryCredential() {
+  const { id } = useParams();
   return (
     <>
       <Container>
@@ -64,7 +65,7 @@ function InquiryCredential() {
               <h2>Inquiry Credentials</h2>
             </Left>
             <Right>
-              <Links to="/dashboard/inquiry-credentials/add">
+              <Links to={`/dashboard/inquiry-credentials/add/${id}`}>
                 Add Inquiry Credentials
               </Links>
             </Right>

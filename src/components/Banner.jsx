@@ -10,7 +10,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-image: url(./assets/background.jpg);
+  background-image: url(../assets/background.jpg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
