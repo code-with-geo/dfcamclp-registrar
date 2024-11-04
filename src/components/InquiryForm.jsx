@@ -287,7 +287,11 @@ function InquiryForm() {
                       fontSize="13px"
                       placeholder="School Email"
                       marginRight="10px"
-                      {...register("StudentEmail")}
+                      {...register("StudentEmail", {
+                        pattern: {
+                          value: /^[a-zA-Z0-9._%+-]+@dfcamclp\.edu\.ph$/,
+                        },
+                      })}
                       required="true"
                       onChange={(e) => {
                         setStudentEmail(e.target.value);
